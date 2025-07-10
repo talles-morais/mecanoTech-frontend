@@ -15,15 +15,11 @@ const schema = yup.object().shape({
     .string()
     .required("Senha é obrigatória")
     .min(6, "Senha deve ter pelo menos 6 caracteres"),
-  confirmPassword: yup
-    .string()
-    .required("Confirmação de senha é obrigatória")
-    .oneOf([yup.ref("password")], "Senhas devem ser iguais"),
 });
 
 type FormData = yup.InferType<typeof schema>;
 
-export default function CadastroPage() {
+export default function LoginPage() {
   const navigate = useNavigate();
   const {
     register,
@@ -36,18 +32,13 @@ export default function CadastroPage() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      await api.post("/register", {
-        email: data.email,
-        password: data.password,
-      });
-
       await api.post("/login", {
         email: data.email,
         password: data.password,
       });
 
       reset();
-      navigate("/cadastro-sequencial")
+      navigate("/")
     } catch (error) {
       console.error("Erro ao cadastrar usuário", error);
     }
@@ -67,7 +58,7 @@ export default function CadastroPage() {
 
       {/* form */}
       <section className="flex flex-col gap-7 justify-center px-16 bg-secondary w-2/3  text-white">
-        <h1 className="text-white font-bold text-4xl">Cadastre-se</h1>
+        <h1 className="text-white font-bold text-4xl">Faça login</h1>
         <form
           className="flex flex-col w-full gap-5"
           onSubmit={handleSubmit(onSubmit)}
@@ -85,24 +76,17 @@ export default function CadastroPage() {
             {...register("password")}
             error={errors.password?.message}
           />
-          <Input
-            placeholder="Confirme sua senha"
-            type="password"
-            autoComplete="none"
-            {...register("confirmPassword")}
-            error={errors.confirmPassword?.message}
-          />
 
           <button
             type="submit"
             className="bg-primary-light text-xl font-bold rounded-xl min-w-1/3 self-center py-5 mt-4 hover:scale-105 transition-all cursor-pointer"
           >
-            Cadastrar
+            Fazer login
           </button>
           <p className="block self-center">
-            Já tem conta?{" "}
+            Não tem conta?{" "}
             <Link className="font-bold underline" to="/login">
-              Faça login
+              Cadastre-se
             </Link>
           </p>
         </form>
