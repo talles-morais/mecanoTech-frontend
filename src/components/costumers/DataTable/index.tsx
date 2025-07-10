@@ -27,7 +27,7 @@ export default function DataTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {mockCostumers.map((cliente) => (
+          {mockCustomers.map((cliente) => (
             <TableRow key={cliente.email}>
               {/* Aplica os estilos em todas as células do corpo da tabela */}
               <TableCell
@@ -54,14 +54,14 @@ export default function DataTable() {
   );
 }
 
-type Costumer = {
+type Customer = {
   nome: string;
   telefone: string;
   email: string;
   endereco: string;
 };
 
-const mockCostumers: Costumer[] = [
+const mockCustomers: Customer[] = [
   {
     nome: "Ana Costa",
     telefone: "(35) 99876-5432",

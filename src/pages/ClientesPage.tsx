@@ -1,15 +1,15 @@
 import SearchAndFilter from "../components/shared/SearchAndFilter";
 import Sidebar from "../components/shared/Sidebar";
-import DataTable from "../components/costumers/DataTable";
+import DataTable from "../components/customers/DataTable";
 import { Add } from "@mui/icons-material";
 import FormModal from "../components/shared/FormModal";
-import AddCostumerForm from "../components/cadastro/AddCostumerForm";
+import AddCustomerForm from "../components/cadastro/AddCustomerForm";
 import { useState } from "react";
 
-export default function CostumeresPage() {
-  const [openAddCostumerDialog, setOpenAddCostumerDialog] = useState(false);
+export default function CustomeresPage() {
+  const [openAddCustomerDialog, setOpenAddCustomerDialog] = useState(false);
 
-  const handleAddCostumer = () => {
+  const handleAddCustomer = () => {
     console.log("enviado");
   };
 
@@ -26,7 +26,7 @@ export default function CostumeresPage() {
 
           <button
             type="button"
-            onClick={() => setOpenAddCostumerDialog(true)}
+            onClick={() => setOpenAddCustomerDialog(true)}
             className="flex gap-2 items-center p-2 bg-primary text-white font-bold rounded-lg hover:scale-105 transition-all border border-white cursor-pointer"
           >
             <Add />
@@ -41,12 +41,12 @@ export default function CostumeresPage() {
       </main>
 
       <FormModal
-        open={openAddCostumerDialog}
+        open={openAddCustomerDialog}
         title="Cadastrar cliente"
-        onClose={() => setOpenAddCostumerDialog(false)}
-        onSubmit={handleAddCostumer}
+        onClose={() => setOpenAddCustomerDialog(false)}
+        onSubmit={handleAddCustomer}
       >
-        <AddCostumerForm onClose={() => setOpenAddCostumerDialog(false)} />
+        <AddCustomerForm onClose={() => setOpenAddCustomerDialog(false)} />
       </FormModal>
     </div>
   );

@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "../../shared/Input";
 import Select from "../../shared/Select";
 
-interface AddCostumerFormProps {
+interface AddCustomerFormProps {
   onClose: () => void;
 }
 
@@ -55,7 +55,7 @@ const states = [
   "TO",
 ];
 
-export default function AddCostumerForm({ onClose }: AddCostumerFormProps) {
+export default function AddCustomerForm({ onClose }: AddCustomerFormProps) {
   const {
     register,
     handleSubmit,
