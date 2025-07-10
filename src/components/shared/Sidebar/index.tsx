@@ -11,7 +11,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import Box from "@mui/material/Box";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import {
   Dashboard as DashboardIcon,
@@ -23,7 +23,7 @@ import {
   AccountCircle as AccountCircleIcon,
   ExitToApp as LogoutIcon,
 } from "@mui/icons-material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const drawerWidth = 260;
 
@@ -94,16 +94,14 @@ const menuItems = [
   {
     text: "Dashboard",
     icon: <DashboardIcon />,
-    active: true,
     path: "/",
   },
-  { text: "Serviços", icon: <ServicesIcon />, active: false, path: "/servicos" },
-  { text: "Agenda", icon: <AgendaIcon />, active: false, path: "/agenda" },
-  { text: "Clientes", icon: <ClientsIcon />, active: false, path: "/clientes" },
+  { text: "Serviços", icon: <ServicesIcon />, path: "/servicos" },
+  { text: "Agenda", icon: <AgendaIcon />, path: "/agenda" },
+  { text: "Clientes", icon: <ClientsIcon />, path: "/clientes" },
   {
     text: "Fornecedores",
     icon: <SuppliersIcon />,
-    active: false,
     path: "/fornecedores",
   },
   { type: "divider" },
@@ -111,18 +109,31 @@ const menuItems = [
   {
     text: "Pagamentos",
     icon: <PaymentsIcon />,
-    active: false,
     path: "/pagamentos",
   },
 ];
 
 export default function Sidebar() {
-  const [open, setOpen] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const getInitialOpenState = () => {
+    const savedState = localStorage.getItem("sidebarOpen");
+    if (savedState === null) {
+      return true;
+    }
+    return JSON.parse(savedState);
+  };
+
+  const [open, setOpen] = useState(getInitialOpenState);
 
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  useEffect(() => {
+    localStorage.setItem("sidebarOpen", JSON.stringify(open));
+  }, [open]);
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -172,6 +183,7 @@ export default function Sidebar() {
             if (item.type === "divider") {
               return <Divider key={index} sx={{ my: 1 }} />;
             }
+            const isActive = location.pathname === item.path;
 
             return (
               <ListItem
@@ -185,8 +197,8 @@ export default function Sidebar() {
                     minHeight: 48,
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
-                    color: item.active ? "error.main" : "text.primary",
-                    fontWeight: item.active ? "bold" : "normal",
+                    color: isActive ? "error.main" : "text.primary",
+                    fontWeight: isActive ? "bold" : "normal",
                   }}
                 >
                   <ListItemIcon
