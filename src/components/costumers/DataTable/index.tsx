@@ -28,7 +28,7 @@ export default function DataTable() {
         </TableHead>
         <TableBody>
           {mockCustomers.map((cliente) => (
-            <TableRow key={cliente.email}>
+            <TableRow key={cliente.email} className="hover:bg-zinc-900 transition-colors">
               {/* Aplica os estilos em todas as células do corpo da tabela */}
               <TableCell
                 component="th"

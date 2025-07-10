@@ -4,22 +4,24 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import Input from "../../shared/Input";
 import Select from "../../shared/Select";
+import api from "../../../services/api";
+import { useAuth } from "../../../hooks/useAuth";
 
 interface AddCustomerFormProps {
   onClose: () => void;
 }
 
 const schema = yup.object().shape({
-  nome: yup.string().required("O nome é obrigatório."),
+  name: yup.string().required("O nome é obrigatório."),
   email: yup
     .string()
     .email("Digite um e-mail válido.")
     .required("O e-mail é obrigatório."),
-  telefone: yup.string().required("O telefone é obrigatório."),
-  rua: yup.string().required("A rua é obrigatória."),
-  bairro: yup.string().required("O bairro é obrigatório."),
-  numero: yup.string().required("O número é obrigatório."),
-  cidade: yup.string().required("A cidade é obrigatória."),
+  phone: yup.string().required("O telefone é obrigatório."),
+  street: yup.string().required("A rua é obrigatória."),
+  neighborhood: yup.string().required("O bairro é obrigatório."),
+  number: yup.string().required("O número é obrigatório."),
+  city: yup.string().required("A cidade é obrigatória."),
   estado: yup.string().required("O estado é obrigatório."),
 });
 
@@ -56,6 +58,7 @@ const states = [
 ];
 
 export default function AddCustomerForm({ onClose }: AddCustomerFormProps) {
+  const { user } = useAuth();
   const {
     register,
     handleSubmit,
@@ -64,8 +67,18 @@ export default function AddCustomerForm({ onClose }: AddCustomerFormProps) {
     resolver: yupResolver(schema),
   });
 
-  const onFormSubmit = (data: FormData) => {
-    console.log("Dados do novo cliente:", data);
+  const onFormSubmit = async (data: FormData) => {
+    try {
+      const response = await api.post("/customer", {
+        name: data.name,
+        phone: data.phone,
+        email: data.email,
+        workshopId: user?.workshopId,
+      });
+      console.log("Dados do novo cliente:", response.data);
+    } catch (error) {
+      console.error("Erro ao criar usuário", error);
+    }
   };
 
   return (
@@ -73,8 +86,8 @@ export default function AddCustomerForm({ onClose }: AddCustomerFormProps) {
       <Input
         dark
         placeholder="Nome"
-        error={errors.nome?.message}
-        {...register("nome")}
+        error={errors.name?.message}
+        {...register("name")}
       />
       <Input
         dark
@@ -87,8 +100,8 @@ export default function AddCustomerForm({ onClose }: AddCustomerFormProps) {
         dark
         placeholder="Telefone"
         type="tel"
-        error={errors.telefone?.message}
-        {...register("telefone")}
+        error={errors.phone?.message}
+        {...register("phone")}
       />
 
       <p className="text-xl pt-4">Endereço:</p>
@@ -96,8 +109,8 @@ export default function AddCustomerForm({ onClose }: AddCustomerFormProps) {
       <Input
         dark
         placeholder="Rua"
-        error={errors.rua?.message}
-        {...register("rua")}
+        error={errors.street?.message}
+        {...register("street")}
       />
 
       <div className="grid grid-cols-3 gap-4">
@@ -105,15 +118,15 @@ export default function AddCustomerForm({ onClose }: AddCustomerFormProps) {
           <Input
             dark
             placeholder="Bairro"
-            error={errors.bairro?.message}
-            {...register("bairro")}
+            error={errors.neighborhood?.message}
+            {...register("neighborhood")}
           />
         </div>
         <Input
           dark
           placeholder="Número"
-          error={errors.numero?.message}
-          {...register("numero")}
+          error={errors.number?.message}
+          {...register("number")}
         />
       </div>
 
@@ -122,8 +135,8 @@ export default function AddCustomerForm({ onClose }: AddCustomerFormProps) {
           <Input
             dark
             placeholder="Cidade"
-            error={errors.cidade?.message}
-            {...register("cidade")}
+            error={errors.city?.message}
+            {...register("city")}
           />
         </div>
         <Select dark error={errors.estado?.message} {...register("estado")}>

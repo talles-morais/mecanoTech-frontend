@@ -1,6 +1,6 @@
 import SearchAndFilter from "../components/shared/SearchAndFilter";
 import Sidebar from "../components/shared/Sidebar";
-import DataTable from "../components/customers/DataTable";
+import DataTable from "../components/costumers/DataTable";
 import { Add } from "@mui/icons-material";
 import FormModal from "../components/shared/FormModal";
 import AddCustomerForm from "../components/cadastro/AddCustomerForm";
@@ -18,7 +18,7 @@ export default function CustomeresPage() {
       <Sidebar />
 
       <main className="flex flex-col gap-3 grow p-6 bg-black min-h-screen text-white">
-        <h1 className="text-4xl font-bold">Clients</h1>
+        <h1 className="text-4xl font-bold">Clientes</h1>
 
         {/* seção superior (pesquisa e novo cliente) */}
         <section className="flex w-full justify-between">
