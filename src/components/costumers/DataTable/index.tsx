@@ -8,8 +8,10 @@ import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import api from "../../../services/api";
 import { Delete, Edit } from "@mui/icons-material";
+import EditCustomerForm from "../../cadastro/EditCustomerForm";
+import FormModal from "../../shared/FormModal";
 
-interface Customer {
+export interface Customer {
   id: string;
   email: string;
   name: string;
@@ -20,21 +22,32 @@ interface Customer {
 }
 
 export default function DataTable() {
-  const [customers, setCustomers] = useState<Customer[]>([])
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer>();
+  const [openEditCustomerDialog, setOpenEditCustomerDialog] = useState(false);
 
   const fetchCustomers = async () => {
     try {
-      const response = await api.get("/customer")
+      const response = await api.get("/customer");
 
-      setCustomers(response.data)
+      setCustomers(response.data);
     } catch (error) {
-      console.error("Erro ao criar cliente", error)
+      console.error("Erro ao criar cliente", error);
     }
-  }
+  };
+
+  const handleOpenEditDialog = (customer: Customer) => {
+    setSelectedCustomer(customer);
+    setOpenEditCustomerDialog(true)
+  };
+
+  const handleEdit = () => {
+    console.log("editado");
+  };
 
   useEffect(() => {
-    fetchCustomers()
-  }, [])
+    fetchCustomers();
+  }, [openEditCustomerDialog]);
 
   return (
     <TableContainer component={Paper} sx={{ backgroundColor: "transparent" }}>
@@ -60,7 +73,10 @@ export default function DataTable() {
         </TableHead>
         <TableBody>
           {customers.map((customer) => (
-            <TableRow key={customer.id} className="hover:bg-zinc-900 transition-colors">
+            <TableRow
+              key={customer.id}
+              className="hover:bg-zinc-900 transition-colors"
+            >
               {/* Aplica os estilos em todas as células do corpo da tabela */}
               <TableCell
                 component="th"
@@ -78,14 +94,35 @@ export default function DataTable() {
               <TableCell sx={{ border: 0, color: "white" }}>
                 {"Endereço"}
               </TableCell>
-              <TableCell sx={{ border: 0, color: "white", display: "flex", gap: 2 }}>
-                <button className="hover:scale-120 transition-all cursor-pointer"><Edit /></button>
-                <button className="hover:scale-120 transition-all cursor-pointer"><Delete sx={{ color: "#e32832" }}/></button>
+              <TableCell
+                sx={{ border: 0, color: "white", display: "flex", gap: 2 }}
+              >
+                <button
+                  onClick={() => handleOpenEditDialog(customer)}
+                  className="hover:scale-120 transition-all cursor-pointer"
+                >
+                  <Edit />
+                </button>
+                <button className="hover:scale-120 transition-all cursor-pointer">
+                  <Delete sx={{ color: "#e32832" }} />
+                </button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+
+      <FormModal
+        open={openEditCustomerDialog}
+        title="Editar cliente"
+        onClose={() => setOpenEditCustomerDialog(false)}
+        onSubmit={handleEdit}
+      >
+        <EditCustomerForm
+          customer={selectedCustomer}
+          onClose={() => setOpenEditCustomerDialog(false)}
+        />
+      </FormModal>
     </TableContainer>
   );
 }

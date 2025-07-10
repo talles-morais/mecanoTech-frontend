@@ -6,7 +6,7 @@ import FormModal from "../components/shared/FormModal";
 import AddCustomerForm from "../components/cadastro/AddCustomerForm";
 import { useState } from "react";
 
-export default function CustomeresPage() {
+export default function ClientesPage() {
   const [openAddCustomerDialog, setOpenAddCustomerDialog] = useState(false);
 
   const handleAddCustomer = () => {
