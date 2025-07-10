@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import backgroundImage from "../assets/car-repair-background.webp";
 import Input from "../components/shared/Input";
-import api from "../services/api";
+import { useAuth } from "../hooks/useAuth";
 
 const schema = yup.object().shape({
   email: yup
@@ -21,6 +21,7 @@ type FormData = yup.InferType<typeof schema>;
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const {
     register,
     handleSubmit,
@@ -32,15 +33,11 @@ export default function LoginPage() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      await api.post("/login", {
-        email: data.email,
-        password: data.password,
-      });
-
+      await login(data.email, data.password);
       reset();
-      navigate("/")
+      navigate("/");
     } catch (error) {
-      console.error("Erro ao cadastrar usuário", error);
+      console.error("Erro ao fazer login", error);
     }
   };
 
