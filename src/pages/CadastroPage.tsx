@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -24,6 +24,7 @@ const schema = yup.object().shape({
 type FormData = yup.InferType<typeof schema>;
 
 export default function CadastroPage() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -40,7 +41,13 @@ export default function CadastroPage() {
         password: data.password,
       });
 
+      await api.post("/login", {
+        email: data.email,
+        password: data.password,
+      });
+
       reset();
+      navigate("/cadastro-sequencial")
     } catch (error) {
       console.error("Erro ao cadastrar usuário", error);
     }
