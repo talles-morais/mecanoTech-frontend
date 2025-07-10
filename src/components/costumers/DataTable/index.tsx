@@ -5,8 +5,37 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useEffect, useState } from "react";
+import api from "../../../services/api";
+import { Delete, Edit } from "@mui/icons-material";
+
+interface Customer {
+  id: string;
+  email: string;
+  name: string;
+  phone: string;
+  createdAt: string;
+  updatedAt?: string;
+  deletedAt?: string;
+}
 
 export default function DataTable() {
+  const [customers, setCustomers] = useState<Customer[]>([])
+
+  const fetchCustomers = async () => {
+    try {
+      const response = await api.get("/customer")
+
+      setCustomers(response.data)
+    } catch (error) {
+      console.error("Erro ao criar cliente", error)
+    }
+  }
+
+  useEffect(() => {
+    fetchCustomers()
+  }, [])
+
   return (
     <TableContainer component={Paper} sx={{ backgroundColor: "transparent" }}>
       <Table sx={{ minWidth: 650 }}>
@@ -24,27 +53,34 @@ export default function DataTable() {
             <TableCell sx={{ border: 0, color: "white", fontWeight: "bold" }}>
               Endereço
             </TableCell>
+            <TableCell sx={{ border: 0, color: "white", fontWeight: "bold" }}>
+              Ações
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {mockCustomers.map((cliente) => (
-            <TableRow key={cliente.email} className="hover:bg-zinc-900 transition-colors">
+          {customers.map((customer) => (
+            <TableRow key={customer.id} className="hover:bg-zinc-900 transition-colors">
               {/* Aplica os estilos em todas as células do corpo da tabela */}
               <TableCell
                 component="th"
                 scope="row"
                 sx={{ border: 0, color: "white" }}
               >
-                {cliente.nome}
+                {customer.name}
               </TableCell>
               <TableCell sx={{ border: 0, color: "white" }}>
-                {cliente.telefone}
+                {customer.phone}
               </TableCell>
               <TableCell sx={{ border: 0, color: "white" }}>
-                {cliente.email}
+                {customer.email}
               </TableCell>
               <TableCell sx={{ border: 0, color: "white" }}>
-                {cliente.endereco}
+                {"Endereço"}
+              </TableCell>
+              <TableCell sx={{ border: 0, color: "white", display: "flex", gap: 2 }}>
+                <button className="hover:scale-120 transition-all cursor-pointer"><Edit /></button>
+                <button className="hover:scale-120 transition-all cursor-pointer"><Delete sx={{ color: "#e32832" }}/></button>
               </TableCell>
             </TableRow>
           ))}
@@ -53,75 +89,3 @@ export default function DataTable() {
     </TableContainer>
   );
 }
-
-type Customer = {
-  nome: string;
-  telefone: string;
-  email: string;
-  endereco: string;
-};
-
-const mockCustomers: Customer[] = [
-  {
-    nome: "Ana Costa",
-    telefone: "(35) 99876-5432",
-    email: "ana.costa@example.com",
-    endereco: "Rua das Flores, 123, Bairro Centro, Itajubá - MG",
-  },
-  {
-    nome: "Bruno Oliveira",
-    telefone: "(35) 98765-4321",
-    email: "bruno.oliveira@example.com",
-    endereco: "Avenida Brasil, 456, Bairro Varginha, Itajubá - MG",
-  },
-  {
-    nome: "Carla Santos",
-    telefone: "(35) 99123-4567",
-    email: "carla.santos@example.com",
-    endereco: "Praça Wenceslau Braz, 789, Bairro Centro, Itajubá - MG",
-  },
-  {
-    nome: "Daniel Pereira",
-    telefone: "(35) 98456-7890",
-    email: "daniel.pereira@example.com",
-    endereco:
-      "Rua Doutor Pereira Cabral, 101, Bairro Pinheirinho, Itajubá - MG",
-  },
-  {
-    nome: "Eduarda Lima",
-    telefone: "(35) 99887-7665",
-    email: "eduarda.lima@example.com",
-    endereco: "Avenida Cesário Alvim, 212, Bairro Boa Vista, Itajubá - MG",
-  },
-  {
-    nome: "Felipe Almeida",
-    telefone: "(35) 98876-5432",
-    email: "felipe.almeida@example.com",
-    endereco: "Rua Major Belo Lisboa, 321, Bairro Morro Chic, Itajubá - MG",
-  },
-  {
-    nome: "Gabriela Souza",
-    telefone: "(35) 99234-5678",
-    email: "gabriela.souza@example.com",
-    endereco: "Avenida BPS, 1303, Bairro Pinheirinho, Itajubá - MG",
-  },
-  {
-    nome: "Heitor Martins",
-    telefone: "(35) 98765-1234",
-    email: "heitor.martins@example.com",
-    endereco: "Rua Olegário Maciel, 543, Bairro Centro, Itajubá - MG",
-  },
-  {
-    nome: "Isabela Rocha",
-    telefone: "(35) 99345-6789",
-    email: "isabela.rocha@example.com",
-    endereco:
-      "Travessa Sargento José Justino, 654, Bairro Avenida, Itajubá - MG",
-  },
-  {
-    nome: "João Ferreira",
-    telefone: "(35) 98567-8901",
-    email: "joao.ferreira@example.com",
-    endereco: "Rua Francisco Masseli, 987, Bairro Medicina, Itajubá - MG",
-  },
-];
