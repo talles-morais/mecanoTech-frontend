@@ -6,7 +6,7 @@ export default function Input({ dark = false, error, ...rest }: InputProps) {
       <input
         className={`${
           dark ? "bg-secondary text-white" : "bg-white text-secondary"
-        } w-full py-4 px-6 text-xl rounded-xl outline-none focus:ring-offset-1 focus:ring-4 focus:ring-primary transition-all ${
+        } w-full py-4 px-6 text-xl rounded-xl outline-none focus:ring-4 focus:ring-primary transition-all ${
           error ? "border-2 border-red-500" : ""
         }`}
         {...rest}

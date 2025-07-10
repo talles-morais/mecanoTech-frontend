@@ -2,20 +2,33 @@ import SearchAndFilter from "../components/shared/SearchAndFilter";
 import Sidebar from "../components/shared/Sidebar";
 import DataTable from "../components/costumers/DataTable";
 import { Add } from "@mui/icons-material";
+import FormModal from "../components/shared/FormModal";
+import AddCostumerForm from "../components/cadastro/AddCostumerForm";
+import { useState } from "react";
 
-export default function ClientesPage() {
+export default function CostumeresPage() {
+  const [openAddCostumerDialog, setOpenAddCostumerDialog] = useState(false);
+
+  const handleAddCostumer = () => {
+    console.log("enviado");
+  };
+
   return (
     <div className="flex">
       <Sidebar />
 
       <main className="flex flex-col gap-3 grow p-6 bg-black min-h-screen text-white">
-        <h1 className="text-4xl font-bold">Clientes</h1>
+        <h1 className="text-4xl font-bold">Clients</h1>
 
         {/* seção superior (pesquisa e novo cliente) */}
         <section className="flex w-full justify-between">
           <SearchAndFilter />
 
-          <button className="flex gap-2 items-center p-2 bg-primary text-white font-bold rounded-lg hover:scale-105 transition-all border border-white cursor-pointer">
+          <button
+            type="button"
+            onClick={() => setOpenAddCostumerDialog(true)}
+            className="flex gap-2 items-center p-2 bg-primary text-white font-bold rounded-lg hover:scale-105 transition-all border border-white cursor-pointer"
+          >
             <Add />
             <span>Cadastrar cliente</span>
           </button>
@@ -26,6 +39,15 @@ export default function ClientesPage() {
           <DataTable />
         </section>
       </main>
+
+      <FormModal
+        open={openAddCostumerDialog}
+        title="Cadastrar cliente"
+        onClose={() => setOpenAddCostumerDialog(false)}
+        onSubmit={handleAddCostumer}
+      >
+        <AddCostumerForm onClose={() => setOpenAddCostumerDialog(false)} />
+      </FormModal>
     </div>
   );
 }
