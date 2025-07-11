@@ -8,6 +8,12 @@ import { useState } from "react";
 
 export default function ClientesPage() {
   const [openAddCustomerDialog, setOpenAddCustomerDialog] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleCustomerAdded = () => {
+    setOpenAddCustomerDialog(false);
+    setRefreshKey((prev) => prev + 1); // Força re-renderização da DataTable
+  };
 
   return (
     <div className="flex">
@@ -32,7 +38,7 @@ export default function ClientesPage() {
 
         {/* tabela */}
         <section className="flex border border-white rounded-lg grow p-4 text-white">
-          <DataTable />
+          <DataTable key={refreshKey} />
         </section>
       </main>
 
@@ -41,7 +47,7 @@ export default function ClientesPage() {
         title="Cadastrar cliente"
         onClose={() => setOpenAddCustomerDialog(false)}
       >
-        <AddCustomerForm onClose={() => setOpenAddCustomerDialog(false)} />
+        <AddCustomerForm onClose={handleCustomerAdded} />
       </FormModal>
     </div>
   );

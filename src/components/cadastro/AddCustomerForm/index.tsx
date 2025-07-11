@@ -76,6 +76,7 @@ export default function AddCustomerForm({ onClose }: AddCustomerFormProps) {
         workshopId: user?.workshopId,
       });
       console.log("Dados do novo cliente:", response.data);
+      onClose()
     } catch (error) {
       console.error("Erro ao criar usuário", error);
     }
