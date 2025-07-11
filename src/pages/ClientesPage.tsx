@@ -9,10 +9,6 @@ import { useState } from "react";
 export default function ClientesPage() {
   const [openAddCustomerDialog, setOpenAddCustomerDialog] = useState(false);
 
-  const handleAddCustomer = () => {
-    console.log("enviado");
-  };
-
   return (
     <div className="flex">
       <Sidebar />
@@ -44,7 +40,6 @@ export default function ClientesPage() {
         open={openAddCustomerDialog}
         title="Cadastrar cliente"
         onClose={() => setOpenAddCustomerDialog(false)}
-        onSubmit={handleAddCustomer}
       >
         <AddCustomerForm onClose={() => setOpenAddCustomerDialog(false)} />
       </FormModal>

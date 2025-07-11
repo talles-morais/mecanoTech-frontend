@@ -3,17 +3,17 @@ import Dialog from "@mui/material/Dialog";
 interface FormModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> | void;
   title: string;
   children: React.ReactNode;
+  dark?: boolean
 }
 
 export default function FormModal({
   open,
   onClose,
-  onSubmit,
   title,
   children,
+  dark = true
 }: FormModalProps) {
   return (
     <Dialog
@@ -22,8 +22,8 @@ export default function FormModal({
       slotProps={{
         paper: {
           style: {
-            backgroundColor: "black",
-            color: "white",
+            backgroundColor: dark ? "black" : "white",
+            color: dark ? "white" : "black",
             borderRadius: "16px",
             maxWidth: "600px",
             width: "100%",
@@ -56,8 +56,7 @@ export default function FormModal({
       <div className="p-8">
         <h2 className="text-3xl font-bold mb-6">{title}</h2>
 
-        <div onSubmit={onSubmit} className="flex flex-col gap-y-4">
-          {/* Os campos do formulário serão renderizados aqui */}
+        <div className="flex flex-col gap-y-4">
           {children}
         </div>
       </div>

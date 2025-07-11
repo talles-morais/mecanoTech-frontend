@@ -10,6 +10,7 @@ import api from "../../../services/api";
 import { Delete, Edit } from "@mui/icons-material";
 import EditCustomerForm from "../../cadastro/EditCustomerForm";
 import FormModal from "../../shared/FormModal";
+import DeleteCustomer from "../../cadastro/DeleteCustomer";
 
 export interface Customer {
   id: string;
@@ -25,6 +26,8 @@ export default function DataTable() {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer>();
   const [openEditCustomerDialog, setOpenEditCustomerDialog] = useState(false);
+  const [openDeleteCustomerDialog, setOpenDeleteCustomerDialog] =
+    useState(false);
 
   const fetchCustomers = async () => {
     try {
@@ -38,16 +41,27 @@ export default function DataTable() {
 
   const handleOpenEditDialog = (customer: Customer) => {
     setSelectedCustomer(customer);
-    setOpenEditCustomerDialog(true)
+    setOpenEditCustomerDialog(true);
+  };
+
+  const handleOpenDeleteDialog = (customer: Customer) => {
+    setSelectedCustomer(customer);
+    setOpenDeleteCustomerDialog(true);
   };
 
   const handleEdit = () => {
-    console.log("editado");
+    setOpenEditCustomerDialog(false);
+    fetchCustomers();
+  };
+
+  const handleDelete = () => {
+    setOpenDeleteCustomerDialog(false)
+    fetchCustomers();
   };
 
   useEffect(() => {
     fetchCustomers();
-  }, [openEditCustomerDialog]);
+  }, []);
 
   return (
     <TableContainer component={Paper} sx={{ backgroundColor: "transparent" }}>
@@ -103,7 +117,10 @@ export default function DataTable() {
                 >
                   <Edit />
                 </button>
-                <button className="hover:scale-120 transition-all cursor-pointer">
+                <button
+                  onClick={() => handleOpenDeleteDialog(customer)}
+                  className="hover:scale-120 transition-all cursor-pointer"
+                >
                   <Delete sx={{ color: "#e32832" }} />
                 </button>
               </TableCell>
@@ -115,12 +132,23 @@ export default function DataTable() {
       <FormModal
         open={openEditCustomerDialog}
         title="Editar cliente"
-        onClose={() => setOpenEditCustomerDialog(false)}
-        onSubmit={handleEdit}
+        onClose={handleEdit}
       >
         <EditCustomerForm
           customer={selectedCustomer}
-          onClose={() => setOpenEditCustomerDialog(false)}
+          onClose={handleEdit}
+        />
+      </FormModal>
+
+      <FormModal
+        open={openDeleteCustomerDialog}
+        title="Excluir cliente"
+        onClose={handleDelete}
+        dark={false}
+      >
+        <DeleteCustomer
+          customer={selectedCustomer}
+          onClose={handleDelete}
         />
       </FormModal>
     </TableContainer>
