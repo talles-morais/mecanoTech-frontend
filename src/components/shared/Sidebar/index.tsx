@@ -24,6 +24,7 @@ import {
   ExitToApp as LogoutIcon,
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
+import api from "../../../services/api";
 
 const drawerWidth = 260;
 
@@ -134,6 +135,18 @@ export default function Sidebar() {
   useEffect(() => {
     localStorage.setItem("sidebarOpen", JSON.stringify(open));
   }, [open]);
+
+  const handleLogout = async () => {
+    try {
+      const response = await api.post("/logout")
+      
+      if(response.status === 200) {
+        navigate("/login")
+      }
+    } catch (error) {
+      console.error("Erro ao fazer logout", error)
+    }
+  }
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -258,6 +271,7 @@ export default function Sidebar() {
                   px: 2.5,
                   color: "error.main",
                 }}
+                onClick={handleLogout}
               >
                 <ListItemIcon
                   sx={{
