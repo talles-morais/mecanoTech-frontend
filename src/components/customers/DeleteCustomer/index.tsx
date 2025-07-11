@@ -1,5 +1,5 @@
 import api from "../../../services/api";
-import type { Customer } from "../../costumers/DataTable";
+import type { Customer } from "../DataTable";
 
 interface DeleteCustomerProps {
   customer?: Customer;

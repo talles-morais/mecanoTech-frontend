@@ -1,9 +1,9 @@
 import SearchAndFilter from "../components/shared/SearchAndFilter";
 import Sidebar from "../components/shared/Sidebar";
-import DataTable from "../components/costumers/DataTable";
+import DataTable from "../components/customers/DataTable";
 import { Add } from "@mui/icons-material";
 import FormModal from "../components/shared/FormModal";
-import AddCustomerForm from "../components/cadastro/AddCustomerForm";
+import AddCustomerForm from "../components/customers/AddCustomerForm";
 import { useState } from "react";
 
 export default function ClientesPage() {

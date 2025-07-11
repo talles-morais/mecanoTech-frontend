@@ -8,9 +8,9 @@ import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import api from "../../../services/api";
 import { Delete, Edit } from "@mui/icons-material";
-import EditCustomerForm from "../../cadastro/EditCustomerForm";
+import EditCustomerForm from "../EditCustomerForm";
 import FormModal from "../../shared/FormModal";
-import DeleteCustomer from "../../cadastro/DeleteCustomer";
+import DeleteCustomer from "../DeleteCustomer";
 import { useNavigate } from "react-router-dom";
 
 export interface Customer {

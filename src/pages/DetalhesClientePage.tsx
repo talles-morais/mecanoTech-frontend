@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../services/api";
-import type { Customer } from "../components/costumers/DataTable";
+import type { Customer } from "../components/customers/DataTable";
 import { Add } from "@mui/icons-material";
-import AddressList from "../components/clientes/AddressList";
+import AddressList from "../components/customers/AddressList";
 import FormModal from "../components/shared/FormModal";
-import AddAddressForm from "../components/clientes/AddAddressForm";
+import AddAddressForm from "../components/customers/AddAddressForm";
 import Sidebar from "../components/shared/Sidebar";
 
 export interface Address {

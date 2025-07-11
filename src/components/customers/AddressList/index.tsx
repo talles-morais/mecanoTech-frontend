@@ -19,13 +19,11 @@ export default function AddressList({
   const [editingAddress, setEditingAddress] = useState<Address | null>(null);
 
   const handleDelete = async (addressId: string) => {
-    if (window.confirm("Tem certeza que deseja excluir este endereço?")) {
-      try {
-        await api.delete(`/address/${addressId}`);
-        onAddressDeleted(addressId);
-      } catch (error) {
-        console.error("Erro ao excluir endereço", error);
-      }
+    try {
+      await api.delete(`/address/${addressId}`);
+      onAddressDeleted(addressId);
+    } catch (error) {
+      console.error("Erro ao excluir endereço", error);
     }
   };
 

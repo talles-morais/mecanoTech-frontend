@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "../../shared/Input";
 import Select from "../../shared/Select";
 import api from "../../../services/api";
-import type { Customer } from "../../costumers/DataTable";
+import type { Customer } from "../DataTable";
 import { useEffect } from "react";
 
 interface AddCustomerFormProps {
