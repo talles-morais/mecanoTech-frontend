@@ -32,21 +32,30 @@ export default function AddressList({
   return (
     <div className="space-y-4">
       {addresses.map((address) => (
-        <div key={address.id} className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center">
+        <div
+          key={address.id}
+          className="p-4 rounded-lg shadow-md flex justify-between items-center border border-white"
+        >
           <div>
             <p className="font-semibold">
               {address.street}, {address.number}
             </p>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-white">
               {address.neighborhood}, {address.city} - {address.state}
             </p>
             <p className="text-sm text-gray-500">{address.zipCode}</p>
           </div>
           <div className="flex gap-4">
-            <button onClick={() => setEditingAddress(address)} className="text-blue-500 hover:text-blue-700">
+            <button
+              onClick={() => setEditingAddress(address)}
+              className="text-white hover:text-zinc-100 hover:scale-120 cursor-pointer transition-all"
+            >
               <Edit />
             </button>
-            <button onClick={() => handleDelete(address.id)} className="text-red-500 hover:text-red-700">
+            <button
+              onClick={() => handleDelete(address.id)}
+              className="text-primary hover:text-primary-light hover:scale-120 cursor-pointer transition-all"
+            >
               <Delete sx={{ color: "red" }} />
             </button>
           </div>
@@ -54,7 +63,11 @@ export default function AddressList({
       ))}
 
       {editingAddress && (
-        <FormModal open={!!editingAddress} onClose={() => setEditingAddress(null)} title="Editar endereço">
+        <FormModal
+          open={!!editingAddress}
+          onClose={() => setEditingAddress(null)}
+          title="Editar endereço"
+        >
           <EditAddressForm
             address={editingAddress}
             onAddressUpdated={(updatedAddress: Address) => {

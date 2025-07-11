@@ -6,6 +6,7 @@ import { Add } from "@mui/icons-material";
 import AddressList from "../components/clientes/AddressList";
 import FormModal from "../components/shared/FormModal";
 import AddAddressForm from "../components/clientes/AddAddressForm";
+import Sidebar from "../components/shared/Sidebar";
 
 export interface Address {
   id: string;
@@ -18,7 +19,6 @@ export interface Address {
   complement?: string;
 }
 
-
 export default function DetalhesClientePage() {
   const { id } = useParams<{ id: string }>();
   const [customer, setCustomer] = useState<Customer | null>(null);
@@ -29,10 +29,10 @@ export default function DetalhesClientePage() {
   useEffect(() => {
     const fetchCustomerData = async () => {
       try {
-        const customerResponse = await api.get(`/customer/${id}`)
+        const customerResponse = await api.get(`/customer/${id}`);
 
         setCustomer(customerResponse.data);
-        setAddresses(customerResponse.data.addresses)
+        setAddresses(customerResponse.data.addresses);
       } catch (error) {
         console.error("Erro ao buscar dados do cliente:", error);
       } finally {
@@ -71,28 +71,45 @@ export default function DetalhesClientePage() {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-2">{customer.name}</h1>
-      <p className="text-gray-600 mb-6">{customer.email} | {customer.phone}</p>
+    <div className="flex">
+      <Sidebar />
+      <main className="flex flex-col grow p-6 bg-black min-h-screen text-white">
+        <h1 className="text-3xl font-bold mb-2">{customer.name}</h1>
+        <p className="text-white mb-6">
+          {customer.email} | {customer.phone}
+        </p>
 
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold">Endereços</h2>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="bg-primary text-white py-2 px-4 rounded-lg flex items-center gap-2 hover:bg-primary-light transition-colors"
-        >
-          <Add />
-          Adicionar Endereço
-        </button>
-      </div>
+        <div className="flex gap-12">
+          <section className="grow border border-white rounded-xl px-6 py-3">
+            <h2 className="font-bold text-2xl">Veículos</h2>
+          </section>
 
-      <AddressList
-        addresses={addresses}
-        onAddressUpdated={handleAddressUpdated}
-        onAddressDeleted={handleAddressDeleted}
-      />
+          <aside className="flex flex-col gap-4 border border-white rounded-lg py-3 px-4">
+            <div className="flex justify-between items-center gap-7">
+              <h2 className="text-2xl font-semibold">Endereços</h2>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="bg-primary text-white py-2 px-4 rounded-lg flex items-center gap-2 hover:bg-primary-light transition-colors cursor-pointer"
+              >
+                <Add />
+                Adicionar Endereço
+              </button>
+            </div>
 
-      <FormModal open={isModalOpen} onClose={() => setIsModalOpen(false)} title="Adicionar endereço">
+            <AddressList
+              addresses={addresses}
+              onAddressUpdated={handleAddressUpdated}
+              onAddressDeleted={handleAddressDeleted}
+            />
+          </aside>
+        </div>
+      </main>
+
+      <FormModal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Adicionar endereço"
+      >
         <AddAddressForm
           customerId={customer.id}
           onAddressAdded={handleAddressAdded}
