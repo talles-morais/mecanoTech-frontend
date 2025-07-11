@@ -7,7 +7,7 @@ import Input from "../../shared/Input";
 import Select from "../../shared/Select";
 
 interface EditAddressFormProps {
-  address: Address;
+  address?: Address;
   onAddressUpdated: (address: Address) => void;
   onClose: () => void;
 }
@@ -65,18 +65,18 @@ export default function EditAddressForm({
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
-      street: address.street,
-      neighborhood: address.neighborhood,
-      number: address.number,
-      city: address.city,
-      state: address.state,
-      zipCode: address.zipCode,
+      street: address?.street || "" ,
+      neighborhood: address?.neighborhood || "" ,
+      number: address?.number || "" ,
+      city: address?.city || "" ,
+      state: address?.state || "" ,
+      zipCode: address?.zipCode || "" ,
     },
   });
 
   const onFormSubmit = async (data: FormData) => {
     try {
-      const response = await api.put(`/address/${address.id}`, { ...data });
+      const response = await api.put(`/address/${address?.id}`, { ...data });
       onAddressUpdated(response.data);
     } catch (error) {
       console.error("Erro ao atualizar endereço", error);
