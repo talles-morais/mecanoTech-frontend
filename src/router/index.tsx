@@ -8,6 +8,7 @@ import LoginPage from "../pages/LoginPage";
 import ClientesPage from "../pages/ClientesPage";
 
 import ProtectedRoute from "../components/shared/ProtectedRoute";
+import DetalhesClientePage from "../pages/DetalhesClientePage";
 
 const router = createBrowserRouter([
   // --- ROTAS PÚBLICAS ---
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "/clientes",
         element: <ClientesPage />,
+      },
+      {
+        path: "/clientes/:id",
+        element: <DetalhesClientePage />,
       },
     ],
   },

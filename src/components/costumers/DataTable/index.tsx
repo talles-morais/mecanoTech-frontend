@@ -11,6 +11,7 @@ import { Delete, Edit } from "@mui/icons-material";
 import EditCustomerForm from "../../cadastro/EditCustomerForm";
 import FormModal from "../../shared/FormModal";
 import DeleteCustomer from "../../cadastro/DeleteCustomer";
+import { useNavigate } from "react-router-dom";
 
 export interface Customer {
   id: string;
@@ -23,6 +24,7 @@ export interface Customer {
 }
 
 export default function DataTable() {
+  const navigate = useNavigate()
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer>();
   const [openEditCustomerDialog, setOpenEditCustomerDialog] = useState(false);
@@ -89,6 +91,7 @@ export default function DataTable() {
           {customers.map((customer) => (
             <TableRow
               key={customer.id}
+              onClick={() => navigate(`/clientes/${customer.id}`)}
               className="hover:bg-zinc-900 transition-colors"
             >
               {/* Aplica os estilos em todas as células do corpo da tabela */}
